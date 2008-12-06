@@ -590,7 +590,7 @@
 #pragma mark -
 #pragma mark Functionality
 
-- (void)addTabViewItem:(NSTabViewItem *)item
+- (void)insertTabViewItem:(NSTabViewItem*)item atIndex:(int)index
 {
     // create cell
     PSMTabBarCell *cell = [[PSMTabBarCell alloc] initWithControlView:self];
@@ -614,11 +614,16 @@
     [self bindPropertiesForCell:cell andTabViewItem:item];
 	
     // add to collection
-    [_cells addObject:cell];
+    [_cells insertObject:cell atIndex:index];
     [cell release];
     if ([_cells count] == [tabView numberOfTabViewItems]) {
         [self update]; // don't update unless all are accounted for!
 	}
+}
+
+- (void)addTabViewItem:(NSTabViewItem *)item
+{
+    [self insertTabViewItem:item atIndex:[_cells count]];
 }
 
 - (void)removeTabForCell:(PSMTabBarCell *)cell
