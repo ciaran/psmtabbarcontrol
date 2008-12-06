@@ -594,7 +594,10 @@
 {
     // create cell
     PSMTabBarCell *cell = [[PSMTabBarCell alloc] initWithControlView:self];
-	NSRect cellRect, lastCellFrame = [[_cells lastObject] frame];
+	NSRect cellRect, lastCellFrame;
+	if ([_cells count]) {
+		lastCellFrame = [[_cells objectAtIndex:index-1] frame];
+	}
 	
 	if ([self orientation] == PSMTabBarHorizontalOrientation) {
 		cellRect = [self genericCellRect];
@@ -1794,11 +1797,11 @@
     
     // go through tab view items, add cell for any not present
     NSMutableArray *cellItems = [self representedTabViewItems];
-    NSEnumerator *ex = [tabItems objectEnumerator];
-    NSTabViewItem *item;
-    while ( (item = [ex nextObject]) ) {
+    for (int index = 0; index < [tabItems count]; ++index)
+    {
+        NSTabViewItem* item = [tabItems objectAtIndex:index];
         if (![cellItems containsObject:item]) {
-            [self addTabViewItem:item];
+            [self insertTabViewItem:item atIndex:index];
         }
     }
 
