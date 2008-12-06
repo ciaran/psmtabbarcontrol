@@ -86,7 +86,12 @@
     FakeModel *newModel = [[FakeModel alloc] init];
     NSTabViewItem *newItem = [[[NSTabViewItem alloc] initWithIdentifier:newModel] autorelease];
     [newItem setLabel:@"Untitled"];
-    [tabView addTabViewItem:newItem];
+
+    int index = 0;
+    if([tabView selectedTabViewItem])
+     index = [tabView indexOfTabViewItem:[tabView selectedTabViewItem]] + 1;
+    [tabView insertTabViewItem:newItem atIndex:index];
+
     [tabView selectTabViewItem:newItem]; // this is optional, but expected behavior
     [newModel release];
 }
